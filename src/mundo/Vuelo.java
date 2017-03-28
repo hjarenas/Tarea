@@ -26,6 +26,9 @@ public class Vuelo implements Serializable{
 		
 		asientos[asientos.length]=pasajero;
 	}
+	public int numeroDeAsientosDisponibles(){
+		return aeronave.getCapacidadDeAsientos()-asientos.length;
+	}
 	
 	public Avion getAeronave() {
 		return aeronave;

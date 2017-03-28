@@ -36,6 +36,62 @@ public class Agencia implements Serializable{
 		}
 	}
 	
+	public void reservarAsiento(String ciudadOrigen, String ciudadDestino,String nombre, String apellido, String ocupacion)throws Exception{
+		Vuelo vuelo=buscarVuelo(ciudadOrigen, ciudadDestino);
+		if (vuelo == null) throw new Exception("Vuelo no encontrado");
+		Pasajero p = new Pasajero(nombre,apellido,ocupacion);
+		
+		vuelo.agregarPasajero(p);
+		
+	}
+	
+	public ArrayList<String> getListaDeCiudadesDeOrigen()
+	{
+		ArrayList<String> ciudadesOrigen= new ArrayList<>();
+		for(int i=0;i<vuelos.size();i++){
+			ciudadesOrigen.add(vuelos.get(i).getOrigen().toString());
+		}
+		return ciudadesOrigen;
+	}
+	public ArrayList<String> getListaDeCiudadesDestino(String origen){
+		ArrayList<String> destinos = new ArrayList<>();
+		for (Vuelo vuelo : vuelos) {
+			if(vuelo.getOrigen().esLaCiudad(origen)) destinos.add(vuelo.getDestino().toString());
+		}
+		return destinos;
+	}
+	public int numeroDeAsientosDisponibles(String ciudadOrigen, String ciudadDestino) throws Exception{
+		Vuelo vuelo=buscarVuelo(ciudadOrigen, ciudadDestino);
+		if (vuelo==null) throw new Exception("Vuelo no encontrado");
+		return vuelo.numeroDeAsientosDisponibles();
+	}
+	private Vuelo buscarVuelo(String ciudadOrigen, String ciudadDestino){
+		for(Vuelo vuelo:vuelos){
+			if (vuelo.getOrigen().esLaCiudad(ciudadOrigen) && vuelo.getDestino().esLaCiudad(ciudadDestino)) return vuelo;
+		}
+		return null;
+	}
+	public void saveFile(){
+		try{
+			FileOutputStream fileStr = new FileOutputStream("./Extra/serializable.age");
+			ObjectOutputStream out = new ObjectOutputStream(fileStr);
+			out.writeObject(this);
+			out.close();
+			fileStr.close();
+			
+		}
+		catch (Exception e){
+			
+		}
+	}
+	
+	public void cloneAgencia(Agencia clonedFrom){
+		ciudades=clonedFrom.getCiudades();
+		pilotos=clonedFrom.getPilotos();
+		vuelos=clonedFrom.getVuelos();
+		aviones=clonedFrom.getAviones();
+	}
+	
 	public void defaultAgencia(){
 		ciudades = new Ciudad[4];
 		pilotos= new Piloto[3];
@@ -66,56 +122,6 @@ public class Agencia implements Serializable{
 				if (i!=j) vuelos.add(new Vuelo(aviones[j%5],ciudades[i],ciudades[j],pilotos[j%3]));
 			}
 		}
-	}
-	public void reservarAsiento(String ciudadOrigen, String ciudadDestino,String nombre, String apellido, String ocupacion)throws Exception{
-		Vuelo vuelo=buscarVuelo(ciudadOrigen, ciudadDestino);
-		if (vuelo == null) throw new Exception("Vuelo no encontrado");
-		Pasajero p = new Pasajero(nombre,apellido,ocupacion);
-		
-		vuelo.agregarPasajero(p);
-		
-	}
-	
-	public ArrayList<String> getListaDeCiudadesDeOrigen()
-	{
-		ArrayList<String> ciudadesOrigen= new ArrayList<>();
-		for(int i=0;i<vuelos.size();i++){
-			ciudadesOrigen.add(vuelos.get(i).getOrigen().toString());
-		}
-		return ciudadesOrigen;
-	}
-	public ArrayList<String> getListaDeCiudadesDestino(String origen){
-		ArrayList<String> destinos = new ArrayList<>();
-		for (Vuelo vuelo : vuelos) {
-			if(vuelo.getOrigen().esLaCiudad(origen)) destinos.add(vuelo.getDestino().toString());
-		}
-		return destinos;
-	}
-	public Vuelo buscarVuelo(String ciudadOrigen, String ciudadDestino){
-		for(Vuelo vuelo:vuelos){
-			if (vuelo.getOrigen().esLaCiudad(ciudadOrigen) && vuelo.getDestino().esLaCiudad(ciudadDestino)) return vuelo;
-		}
-		return null;
-	}
-	public void saveFile(){
-		try{
-			FileOutputStream fileStr = new FileOutputStream("./Extra/serializable.age");
-			ObjectOutputStream out = new ObjectOutputStream(fileStr);
-			out.writeObject(this);
-			out.close();
-			fileStr.close();
-			
-		}
-		catch (Exception e){
-			
-		}
-	}
-	
-	public void cloneAgencia(Agencia clonedFrom){
-		ciudades=clonedFrom.getCiudades();
-		pilotos=clonedFrom.getPilotos();
-		vuelos=clonedFrom.getVuelos();
-		aviones=clonedFrom.getAviones();
 	}
 	
 	public Ciudad[] getCiudades() {
