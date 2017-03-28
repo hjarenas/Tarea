@@ -1,6 +1,22 @@
 package mundo;
 
-public class Piloto extends Persona{
+import java.io.Serializable;
+
+public class Piloto extends Persona implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5147998115753126194L;
+	/**
+	 * 
+	 * @param nombre
+	 * @param appellido
+	 */
+	public Piloto(String nombre, String appellido){
+		this.nombre=nombre;
+		this.appelido=appellido;
+		this.ocupacion="Piloto";
+	}
 	@Override
 	public String getNombreCompleto() {
 		// TODO Auto-generated method stub

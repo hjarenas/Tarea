@@ -1,7 +1,17 @@
 package mundo;
 
-public class Pasajero extends Persona{
+import java.io.Serializable;
 
+public class Pasajero extends Persona implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1423029481171038542L;
+	public Pasajero(String nombre, String appellido, String ocupacion){
+		this.nombre=nombre;
+		this.appelido=appellido;
+		this.ocupacion=ocupacion;
+	}
 	@Override
 	public String getNombreCompleto() {
 		// TODO Auto-generated method stub

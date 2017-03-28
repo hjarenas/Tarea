@@ -1,6 +1,12 @@
 package mundo;
 
-public abstract class Persona {
+import java.io.Serializable;
+
+public abstract class Persona implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2498711183656777271L;
 	protected String nombre;
 	protected String appelido;
 	protected String ocupacion;
