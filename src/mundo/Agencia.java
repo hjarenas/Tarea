@@ -7,7 +7,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Agencia implements Serializable{
+public class Agencia implements Serializable,IAgencia{
 	/**
 	 * 
 	 */
@@ -48,8 +48,13 @@ public class Agencia implements Serializable{
 	public ArrayList<String> getListaDeCiudadesDeOrigen()
 	{
 		ArrayList<String> ciudadesOrigen= new ArrayList<>();
+		boolean agregarCiudad;
 		for(int i=0;i<vuelos.size();i++){
-			ciudadesOrigen.add(vuelos.get(i).getOrigen().toString());
+			agregarCiudad=true;
+			for (int j = 0; j < ciudadesOrigen.size() && agregarCiudad; j++) {
+				if (vuelos.get(i).getOrigen().esLaCiudad(ciudadesOrigen.get(j))) agregarCiudad=false;
+			}
+			if (agregarCiudad) ciudadesOrigen.add(vuelos.get(i).getOrigen().toString());
 		}
 		return ciudadesOrigen;
 	}

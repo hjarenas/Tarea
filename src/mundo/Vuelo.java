@@ -8,7 +8,8 @@ public class Vuelo implements Serializable{
 	 */
 	private static final long serialVersionUID = -6978357253636139112L;
 	private Avion aeronave;
-	private Pasajero[] asientos;
+	private Pasajero[] asientosReservados;
+	private int numAsientosReservados;
 	private Ciudad origen;
 	private Ciudad destino;
 	private Piloto piloto;
@@ -18,16 +19,16 @@ public class Vuelo implements Serializable{
 		origen=pOrigen;
 		destino=pDestino;
 		piloto=pPiloto;
-		asientos= new Pasajero[aeronave.getCapacidadDeAsientos()];
+		asientosReservados= new Pasajero[aeronave.getCapacidadDeAsientos()];
 	}
 	
 	public void agregarPasajero(Pasajero pasajero) throws Exception{
-		if (asientos.length>=aeronave.getCapacidadDeAsientos()) throw new Exception ("El vuelo ya esta lleno");
+		if (numAsientosReservados>=aeronave.getCapacidadDeAsientos()) throw new Exception ("El vuelo ya esta lleno");
 		
-		asientos[asientos.length]=pasajero;
+		asientosReservados[numAsientosReservados++]=pasajero;
 	}
 	public int numeroDeAsientosDisponibles(){
-		return aeronave.getCapacidadDeAsientos()-asientos.length;
+		return aeronave.getCapacidadDeAsientos()-asientosReservados.length;
 	}
 	
 	public Avion getAeronave() {
@@ -39,11 +40,11 @@ public class Vuelo implements Serializable{
 	}
 
 	public Pasajero[] getAsientos() {
-		return asientos;
+		return asientosReservados;
 	}
 
 	public void setAsientos(Pasajero[] asientos) {
-		this.asientos = asientos;
+		this.asientosReservados = asientos;
 	}
 
 	public Ciudad getOrigen() {
@@ -72,6 +73,6 @@ public class Vuelo implements Serializable{
 
 	@Override
 	public String toString(){
-		return aeronave.toString()+asientos.toString()+origen.toString()+destino.toString()+piloto.toString();
+		return aeronave.toString()+asientosReservados.toString()+origen.toString()+destino.toString()+piloto.toString();
 	}
 }
